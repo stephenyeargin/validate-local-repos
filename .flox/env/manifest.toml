@@ -1,0 +1,9 @@
+schema-version = "1.19.0"
+
+[build.validate-local-repos]
+description = "Runs a `git pull` against local repositories"
+version = "1.0.0"
+command = """
+  mkdir -p $out/bin
+  cp update.sh $out/bin/validate-local-repos
+"""

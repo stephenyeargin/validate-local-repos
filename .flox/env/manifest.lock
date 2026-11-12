@@ -1,0 +1,15 @@
+{
+  "lockfile-version": 1,
+  "manifest": {
+    "schema-version": "1.19.0",
+    "options": {},
+    "build": {
+      "validate-local-repos": {
+        "command": "  mkdir -p $out/bin\n  cp update.sh $out/bin/validate-local-repos\n",
+        "version": "1.0.0",
+        "description": "Runs a `git pull` against local repositories"
+      }
+    }
+  },
+  "packages": []
+}
