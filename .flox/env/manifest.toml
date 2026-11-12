@@ -7,3 +7,6 @@ command = """
   mkdir -p $out/bin
   cp update.sh $out/bin/validate-local-repos
 """
+
+[install]
+bash.pkg-path = "bash"
