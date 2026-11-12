@@ -11,7 +11,7 @@
     "build": {
       "validate-local-repos": {
         "command": "  mkdir -p $out/bin\n  cp update.sh $out/bin/validate-local-repos\n",
-        "version": "1.0.0",
+        "version": "1.0.1",
         "description": "Runs a `git pull` against local repositories"
       }
     }

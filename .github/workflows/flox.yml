@@ -1,0 +1,76 @@
+name: Flox build and publish
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      allow_lineage_change:
+        description: Pass --allow-lineage-change (one-time source URL switch)
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [ubuntu-24.04, ubuntu-24.04-arm, macos-15]
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: flox/install-flox-action@v2
+      - run: flox build validate-local-repos
+      - run: ./result-validate-local-repos/bin/validate-local-repos --help
+
+  publish:
+    if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch'
+    needs: build
+    concurrency: publish-${{ github.ref }}
+    strategy:
+      fail-fast: false
+      # First system registers the lineage before the others publish.
+      max-parallel: 1
+      matrix:
+        runner: [ubuntu-24.04, ubuntu-24.04-arm, macos-15]
+    runs-on: ${{ matrix.runner }}
+    # CLI-287: a refused publish waits 30 minutes before failing.
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # flox publish needs a branch whose upstream contains the rev; tag checkouts are detached.
+      - name: Attach HEAD to main
+        run: |
+          git checkout -B main "$GITHUB_SHA"
+          git branch --set-upstream-to=origin/main main
+          git merge-base --is-ancestor HEAD origin/main
+
+      - name: Check tag matches manifest version
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          manifest_version=$(sed -n 's/^version = "\(.*\)"$/\1/p' .flox/env/manifest.toml)
+          if [[ "${GITHUB_REF_NAME#v}" != "$manifest_version" ]]; then
+            echo "::error::Tag $GITHUB_REF_NAME does not match manifest version $manifest_version"
+            exit 1
+          fi
+
+      - name: Show publish source
+        run: |
+          echo "rev: $(git rev-parse HEAD)"
+          echo "origin: $(git remote get-url origin)"
+
+      - uses: flox/install-flox-action@v2
+
+      - name: Publish
+        env:
+          FLOX_FLOXHUB_TOKEN: ${{ secrets.FLOX_FLOXHUB_TOKEN }}
+          ALLOW_LINEAGE: ${{ inputs.allow_lineage_change && '1' || '' }}
+        run: flox publish validate-local-repos ${ALLOW_LINEAGE:+--allow-lineage-change}
