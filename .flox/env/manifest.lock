@@ -5,13 +5,38 @@
     "install": {
       "bash": {
         "pkg-path": "bash"
+      },
+      "coreutils": {
+        "pkg-path": "coreutils"
+      },
+      "gawk": {
+        "pkg-path": "gawk"
+      },
+      "git": {
+        "pkg-path": "git"
+      },
+      "gnugrep": {
+        "pkg-path": "gnugrep"
+      },
+      "gnused": {
+        "pkg-path": "gnused"
       }
     },
     "options": {},
     "build": {
       "validate-local-repos": {
         "command": "  mkdir -p $out/bin\n  cp update.sh $out/bin/validate-local-repos\n",
-        "version": "1.0.1",
+        "runtime-packages": [
+          "bash",
+          "git",
+          "coreutils",
+          "gnused",
+          "gawk",
+          "gnugrep"
+        ],
+        "version": {
+          "command": "sed -n 's/^VERSION=\"\\(.*\\)\"$/\\1/p' update.sh"
+        },
         "description": "Runs a `git pull` against local repositories"
       }
     }
@@ -121,6 +146,491 @@
         "info": "/nix/store/wwy2y2jckfn1a0g97xl635qsck24ic0p-bash-interactive-5.3p20-info",
         "man": "/nix/store/fvmqqdaz8fsccyvjfma0s76aivfpm9sq-bash-interactive-5.3p20-man",
         "out": "/nix/store/lfm00fnq66xfgbn099vqckabyl5jllz6-bash-interactive-5.3p20"
+      },
+      "system": "x86_64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "coreutils",
+      "broken": false,
+      "derivation": "/nix/store/hxf8a0911gbs62z0l8df93b4lcz62amz-coreutils-9.12.drv",
+      "description": "GNU Core Utilities",
+      "install_id": "coreutils",
+      "license": "GPL-3.0-or-later",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=177d0540942fb205af6993b1d5fa0b57799e09f8",
+      "name": "coreutils-9.12",
+      "pname": "coreutils",
+      "rev": "177d0540942fb205af6993b1d5fa0b57799e09f8",
+      "rev_count": 1114946,
+      "rev_date": "2026-11-09T02:42:03Z",
+      "scrape_date": "2026-11-12T05:47:25.535687Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "9.12",
+      "outputs_to_install": [
+        "out",
+        "out"
+      ],
+      "outputs": {
+        "info": "/nix/store/anb5viyiqh161jwma2agpfhb4j1arrbh-coreutils-9.12-info",
+        "out": "/nix/store/s3nhfncnjczym02h4rz782phaz760jr8-coreutils-9.12"
+      },
+      "system": "aarch64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "coreutils",
+      "broken": false,
+      "derivation": "/nix/store/jnsqzhxxp033jiqgjsh6bhqyzl6rgbn3-coreutils-9.12.drv",
+      "description": "GNU Core Utilities",
+      "install_id": "coreutils",
+      "license": "GPL-3.0-or-later",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=177d0540942fb205af6993b1d5fa0b57799e09f8",
+      "name": "coreutils-9.12",
+      "pname": "coreutils",
+      "rev": "177d0540942fb205af6993b1d5fa0b57799e09f8",
+      "rev_count": 1114946,
+      "rev_date": "2026-11-09T02:42:03Z",
+      "scrape_date": "2026-11-12T06:13:36.573166Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "9.12",
+      "outputs_to_install": [
+        "out",
+        "out",
+        "out"
+      ],
+      "outputs": {
+        "debug": "/nix/store/74a6jzwpnvq11yfvigcsjawnkbnmn1zk-coreutils-9.12-debug",
+        "info": "/nix/store/mdj34p061d09vkij5mk46a2n7zzy61x7-coreutils-9.12-info",
+        "out": "/nix/store/jw0lpdmxdr8ixp4a0hmjpvdg4r6y7p35-coreutils-9.12"
+      },
+      "system": "aarch64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "coreutils",
+      "broken": false,
+      "derivation": "/nix/store/dbmbyzj1j9sj5ap1jyr8d9rhppx50jn6-coreutils-9.12.drv",
+      "description": "GNU Core Utilities",
+      "install_id": "coreutils",
+      "license": "GPL-3.0-or-later",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=177d0540942fb205af6993b1d5fa0b57799e09f8",
+      "name": "coreutils-9.12",
+      "pname": "coreutils",
+      "rev": "177d0540942fb205af6993b1d5fa0b57799e09f8",
+      "rev_count": 1114946,
+      "rev_date": "2026-11-09T02:42:03Z",
+      "scrape_date": "2026-11-12T06:42:18.001534Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "9.12",
+      "outputs_to_install": [
+        "out",
+        "out",
+        "out"
+      ],
+      "outputs": {
+        "debug": "/nix/store/hc5f288zsm6qcj48rpba2dj8m8c0f6f6-coreutils-9.12-debug",
+        "info": "/nix/store/sg53rkfxqj38mir2k7zdn1g2dzpdmbqf-coreutils-9.12-info",
+        "out": "/nix/store/a50ml7za6h61m4mv4cdbvkl33c6sx5yn-coreutils-9.12"
+      },
+      "system": "x86_64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "gawk",
+      "broken": false,
+      "derivation": "/nix/store/g6gwlf0y6j63z0yznzms0lzh61ah4sxb-gawk-5.4.1.drv",
+      "description": "GNU implementation of the Awk programming language",
+      "install_id": "gawk",
+      "license": "GPL-3.0-or-later",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=177d0540942fb205af6993b1d5fa0b57799e09f8",
+      "name": "gawk-5.4.1",
+      "pname": "gawk",
+      "rev": "177d0540942fb205af6993b1d5fa0b57799e09f8",
+      "rev_count": 1114946,
+      "rev_date": "2026-11-09T02:42:03Z",
+      "scrape_date": "2026-11-12T05:47:25.550764Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "5.4.1",
+      "outputs_to_install": [
+        "man",
+        "man",
+        "out",
+        "out"
+      ],
+      "outputs": {
+        "info": "/nix/store/xd8ldnkhixfgjvjm40m8d5z8h81haclg-gawk-5.4.1-info",
+        "man": "/nix/store/vsykb8c05rrcp2r7d2wcywf9nh6dy5x4-gawk-5.4.1-man",
+        "out": "/nix/store/f0rw1mxzkv2ws5k2571j3mizg01m91s8-gawk-5.4.1"
+      },
+      "system": "aarch64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "gawk",
+      "broken": false,
+      "derivation": "/nix/store/35b59gl7d1x8v9n6k98rjf3ypbr4jgwl-gawk-5.4.1.drv",
+      "description": "GNU implementation of the Awk programming language",
+      "install_id": "gawk",
+      "license": "GPL-3.0-or-later",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=177d0540942fb205af6993b1d5fa0b57799e09f8",
+      "name": "gawk-5.4.1",
+      "pname": "gawk",
+      "rev": "177d0540942fb205af6993b1d5fa0b57799e09f8",
+      "rev_count": 1114946,
+      "rev_date": "2026-11-09T02:42:03Z",
+      "scrape_date": "2026-11-12T06:13:36.586536Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "5.4.1",
+      "outputs_to_install": [
+        "man",
+        "man",
+        "out",
+        "out"
+      ],
+      "outputs": {
+        "info": "/nix/store/n3405c96vcqi71zhi81xx772xi6bldj2-gawk-5.4.1-info",
+        "man": "/nix/store/ljk425ngw98mvi1fqqsxw2i7gh9nzncr-gawk-5.4.1-man",
+        "out": "/nix/store/62adp9f907m9iagdl017qfgv816kfwld-gawk-5.4.1"
+      },
+      "system": "aarch64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "gawk",
+      "broken": false,
+      "derivation": "/nix/store/wm7l232in0jm3zjxdhcp0i6h3af2aa24-gawk-5.4.1.drv",
+      "description": "GNU implementation of the Awk programming language",
+      "install_id": "gawk",
+      "license": "GPL-3.0-or-later",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=177d0540942fb205af6993b1d5fa0b57799e09f8",
+      "name": "gawk-5.4.1",
+      "pname": "gawk",
+      "rev": "177d0540942fb205af6993b1d5fa0b57799e09f8",
+      "rev_count": 1114946,
+      "rev_date": "2026-11-09T02:42:03Z",
+      "scrape_date": "2026-11-12T06:42:18.017113Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "5.4.1",
+      "outputs_to_install": [
+        "man",
+        "man",
+        "out",
+        "out",
+        "out"
+      ],
+      "outputs": {
+        "info": "/nix/store/5iialxaw4v4m2by4lwvr1gylddznmgc0-gawk-5.4.1-info",
+        "man": "/nix/store/fv54airmm3dvnxj59ypy804wlncarvhv-gawk-5.4.1-man",
+        "out": "/nix/store/6jw5614njszmn5v325j9lq1fwp4p6lyx-gawk-5.4.1"
+      },
+      "system": "x86_64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "git",
+      "broken": false,
+      "derivation": "/nix/store/ryfa4knwf9si30yq8b968h81ijmql884-git-2.56.0.drv",
+      "description": "Distributed version control system",
+      "install_id": "git",
+      "license": "GPL-2.0-only",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=177d0540942fb205af6993b1d5fa0b57799e09f8",
+      "name": "git-2.56.0",
+      "pname": "git",
+      "rev": "177d0540942fb205af6993b1d5fa0b57799e09f8",
+      "rev_count": 1114946,
+      "rev_date": "2026-11-09T02:42:03Z",
+      "scrape_date": "2026-11-12T05:47:25.552170Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "2.56.0",
+      "outputs_to_install": [
+        "out",
+        "out"
+      ],
+      "outputs": {
+        "doc": "/nix/store/891py8svml38cqvi5i0wyf99i8mjza53-git-2.56.0-doc",
+        "out": "/nix/store/5gpqd5y6g8wav4sgry5i9qmp0kwnnwby-git-2.56.0"
+      },
+      "system": "aarch64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "git",
+      "broken": false,
+      "derivation": "/nix/store/2wrwivc2rd720rvma790x4rvlkcchwdb-git-2.56.0.drv",
+      "description": "Distributed version control system",
+      "install_id": "git",
+      "license": "GPL-2.0-only",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=177d0540942fb205af6993b1d5fa0b57799e09f8",
+      "name": "git-2.56.0",
+      "pname": "git",
+      "rev": "177d0540942fb205af6993b1d5fa0b57799e09f8",
+      "rev_count": 1114946,
+      "rev_date": "2026-11-09T02:42:03Z",
+      "scrape_date": "2026-11-12T06:13:36.588158Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "2.56.0",
+      "outputs_to_install": [
+        "out",
+        "out"
+      ],
+      "outputs": {
+        "debug": "/nix/store/9lkhd1zvai0mw02aykjqbi730swwx9qd-git-2.56.0-debug",
+        "doc": "/nix/store/4h2hxpgirh65k9951jk7w7kw5hsrfvcb-git-2.56.0-doc",
+        "out": "/nix/store/6043wra24xi7fhdrw8rg204v31s39nd5-git-2.56.0"
+      },
+      "system": "aarch64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "git",
+      "broken": false,
+      "derivation": "/nix/store/y14b65y64il77pll95qmgdk26s4jhdrz-git-2.56.0.drv",
+      "description": "Distributed version control system",
+      "install_id": "git",
+      "license": "GPL-2.0-only",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=177d0540942fb205af6993b1d5fa0b57799e09f8",
+      "name": "git-2.56.0",
+      "pname": "git",
+      "rev": "177d0540942fb205af6993b1d5fa0b57799e09f8",
+      "rev_count": 1114946,
+      "rev_date": "2026-11-09T02:42:03Z",
+      "scrape_date": "2026-11-12T06:42:18.018941Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "2.56.0",
+      "outputs_to_install": [
+        "out",
+        "out"
+      ],
+      "outputs": {
+        "debug": "/nix/store/qlbskmnhjz3p6f2iwf5h59r7v8d7dpm6-git-2.56.0-debug",
+        "doc": "/nix/store/5a7dj71qa2r7k303v4f4j6b6kcdf1mff-git-2.56.0-doc",
+        "out": "/nix/store/i2m3w4ly2w6grrmk1j59rb7zp09bssia-git-2.56.0"
+      },
+      "system": "x86_64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "gnugrep",
+      "broken": false,
+      "derivation": "/nix/store/474k5i7gylrdmcqsv6nl0xgi273fkw2w-gnugrep-3.12.drv",
+      "description": "GNU implementation of the Unix grep command",
+      "install_id": "gnugrep",
+      "license": "GPL-3.0-or-later",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=177d0540942fb205af6993b1d5fa0b57799e09f8",
+      "name": "gnugrep-3.12",
+      "pname": "gnugrep",
+      "rev": "177d0540942fb205af6993b1d5fa0b57799e09f8",
+      "rev_count": 1114946,
+      "rev_date": "2026-11-09T02:42:03Z",
+      "scrape_date": "2026-11-12T05:47:25.553778Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "3.12",
+      "outputs_to_install": [
+        "out",
+        "out"
+      ],
+      "outputs": {
+        "info": "/nix/store/fk2ck2g0i6wfa1vzc8vg7rc64zzj3rp5-gnugrep-3.12-info",
+        "out": "/nix/store/88388rrck3fv5wwfx3zk19qml3shx9mh-gnugrep-3.12"
+      },
+      "system": "aarch64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "gnugrep",
+      "broken": false,
+      "derivation": "/nix/store/cm0hc2diw3ys97gycxpfa5p7cyd0x5p4-gnugrep-3.12.drv",
+      "description": "GNU implementation of the Unix grep command",
+      "install_id": "gnugrep",
+      "license": "GPL-3.0-or-later",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=177d0540942fb205af6993b1d5fa0b57799e09f8",
+      "name": "gnugrep-3.12",
+      "pname": "gnugrep",
+      "rev": "177d0540942fb205af6993b1d5fa0b57799e09f8",
+      "rev_count": 1114946,
+      "rev_date": "2026-11-09T02:42:03Z",
+      "scrape_date": "2026-11-12T06:13:36.595372Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "3.12",
+      "outputs_to_install": [
+        "out",
+        "out",
+        "out"
+      ],
+      "outputs": {
+        "info": "/nix/store/5wdy95hrlsf5kyrcvaypf9f8bvkz02f3-gnugrep-3.12-info",
+        "out": "/nix/store/7dwc9h9kw4d3q2536h9yrwpaknx8rbfb-gnugrep-3.12"
+      },
+      "system": "aarch64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "gnugrep",
+      "broken": false,
+      "derivation": "/nix/store/sxsxbww7qwmfqbg7b497gyhg5r2q465p-gnugrep-3.12.drv",
+      "description": "GNU implementation of the Unix grep command",
+      "install_id": "gnugrep",
+      "license": "GPL-3.0-or-later",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=177d0540942fb205af6993b1d5fa0b57799e09f8",
+      "name": "gnugrep-3.12",
+      "pname": "gnugrep",
+      "rev": "177d0540942fb205af6993b1d5fa0b57799e09f8",
+      "rev_count": 1114946,
+      "rev_date": "2026-11-09T02:42:03Z",
+      "scrape_date": "2026-11-12T06:42:18.026715Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "3.12",
+      "outputs_to_install": [
+        "out",
+        "out",
+        "out"
+      ],
+      "outputs": {
+        "info": "/nix/store/vbv8jmkw9rfffsk8fdp0llhjnaswld7n-gnugrep-3.12-info",
+        "out": "/nix/store/5sgjjiqn90zmvlvlgadw7ss00nn3hpjb-gnugrep-3.12"
+      },
+      "system": "x86_64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "gnused",
+      "broken": false,
+      "derivation": "/nix/store/1xbk5j9kz81w8pz13i0w06i928pbmmr6-gnused-4.10.drv",
+      "description": "GNU sed, a batch stream editor",
+      "install_id": "gnused",
+      "license": "GPL-3.0-or-later",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=177d0540942fb205af6993b1d5fa0b57799e09f8",
+      "name": "gnused-4.10",
+      "pname": "gnused",
+      "rev": "177d0540942fb205af6993b1d5fa0b57799e09f8",
+      "rev_count": 1114946,
+      "rev_date": "2026-11-09T02:42:03Z",
+      "scrape_date": "2026-11-12T05:47:25.553859Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "4.10",
+      "outputs_to_install": [
+        "out",
+        "out"
+      ],
+      "outputs": {
+        "info": "/nix/store/g0r1yrfkfhsam01bqqna7iy5yygfv81x-gnused-4.10-info",
+        "out": "/nix/store/dxykv8pfmdhv179ywb3likqa6jvwxkaz-gnused-4.10"
+      },
+      "system": "aarch64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "gnused",
+      "broken": false,
+      "derivation": "/nix/store/hq1wmkdzg47bi3fc83bqn1shg5j9byj2-gnused-4.10.drv",
+      "description": "GNU sed, a batch stream editor",
+      "install_id": "gnused",
+      "license": "GPL-3.0-or-later",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=177d0540942fb205af6993b1d5fa0b57799e09f8",
+      "name": "gnused-4.10",
+      "pname": "gnused",
+      "rev": "177d0540942fb205af6993b1d5fa0b57799e09f8",
+      "rev_count": 1114946,
+      "rev_date": "2026-11-09T02:42:03Z",
+      "scrape_date": "2026-11-12T06:13:36.595472Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "4.10",
+      "outputs_to_install": [
+        "out",
+        "out",
+        "out"
+      ],
+      "outputs": {
+        "info": "/nix/store/60ly165aikcpsa4z405j8vj6w3psgkrr-gnused-4.10-info",
+        "out": "/nix/store/5yv04945c9sx22h47ckz4vl3jkjqnmcb-gnused-4.10"
+      },
+      "system": "aarch64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "gnused",
+      "broken": false,
+      "derivation": "/nix/store/1sdavh3a06cxw2fcn7z6d7i83nhrcb3n-gnused-4.10.drv",
+      "description": "GNU sed, a batch stream editor",
+      "install_id": "gnused",
+      "license": "GPL-3.0-or-later",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=177d0540942fb205af6993b1d5fa0b57799e09f8",
+      "name": "gnused-4.10",
+      "pname": "gnused",
+      "rev": "177d0540942fb205af6993b1d5fa0b57799e09f8",
+      "rev_count": 1114946,
+      "rev_date": "2026-11-09T02:42:03Z",
+      "scrape_date": "2026-11-12T06:42:18.026816Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "4.10",
+      "outputs_to_install": [
+        "out",
+        "out",
+        "out"
+      ],
+      "outputs": {
+        "info": "/nix/store/73q7vpnfv6g148mfkqqp5rnq3qxdq1vr-gnused-4.10-info",
+        "out": "/nix/store/x275j18p7dx6kv7vfj45saapbhbljia4-gnused-4.10"
       },
       "system": "x86_64-linux",
       "group": "toplevel",

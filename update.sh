@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+VERSION="1.1.0"
+
 GREEN=$'\033[0;32m'
 YELLOW=$'\033[1;33m'
 RED=$'\033[0;31m'
@@ -7,18 +9,20 @@ BLUE=$'\033[0;34m'
 DIM=$'\033[2m'
 RESET=$'\033[0m'
 
-SITES_DIR="${HOME}/Sites"
+SITES_DIR="${VALIDATE_REPOS_DIR:-${HOME}/Sites}"
 FILTER=""
 VERBOSE=false
 
 usage() {
   cat <<EOF
-Usage: $(basename "$0") [options]
+Usage: validate-local-repos [options] [dir]
+Pulls every git repo directly under dir (default: \$VALIDATE_REPOS_DIR, else ~/Sites).
 Options:
   -v, --verbose       Show raw git output
   --only-errors       Show only repos with errors
   --only-updated      Show only repos that pulled new commits
   -h, --help          Show this help
+  --version           Show version
 EOF
 }
 
@@ -28,10 +32,18 @@ while [[ $# -gt 0 ]]; do
     --only-errors)   FILTER="errors" ;;
     --only-updated)  FILTER="updated" ;;
     -h|--help)       usage; exit 0 ;;
-    *) printf "Unknown option: %s\n" "$1" >&2; usage; exit 2 ;;
+    --version)       echo "$VERSION"; exit 0 ;;
+    -*) printf "Unknown option: %s\n" "$1" >&2; usage; exit 2 ;;
+    *)               SITES_DIR="$1" ;;
   esac
   shift
 done
+
+if [[ ! -d "$SITES_DIR" ]]; then
+  printf "Not a directory: %s\n" "$SITES_DIR" >&2
+  exit 2
+fi
+SITES_DIR="${SITES_DIR%/}"
 
 export GIT_TERMINAL_PROMPT=0
 export GIT_SSH_COMMAND="ssh -o BatchMode=yes"

@@ -2,11 +2,17 @@ schema-version = "1.19.0"
 
 [build.validate-local-repos]
 description = "Runs a `git pull` against local repositories"
-version = "1.0.1"
+version.command = """sed -n 's/^VERSION="\\(.*\\)"$/\\1/p' update.sh"""
 command = """
   mkdir -p $out/bin
   cp update.sh $out/bin/validate-local-repos
 """
+runtime-packages = ["bash", "git", "coreutils", "gnused", "gawk", "gnugrep"]
 
 [install]
 bash.pkg-path = "bash"
+git.pkg-path = "git"
+coreutils.pkg-path = "coreutils"
+gnused.pkg-path = "gnused"
+gawk.pkg-path = "gawk"
+gnugrep.pkg-path = "gnugrep"

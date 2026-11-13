@@ -4,7 +4,6 @@ on:
   pull_request:
   push:
     branches: [main]
-    tags: ['v*']
   workflow_dispatch:
     inputs:
       allow_lineage_change:
@@ -15,6 +14,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: flox-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   build:
     strategy:
@@ -23,15 +26,46 @@ jobs:
         runner: [ubuntu-24.04, ubuntu-24.04-arm, macos-15]
     runs-on: ${{ matrix.runner }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: flox/install-flox-action@v2
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: flox/install-flox-action@5bb9eaaffbeaa699a8251a1ae21ecf4c8e0e37d4 # v2.7.0
       - run: flox build validate-local-repos
       - run: ./result-validate-local-repos/bin/validate-local-repos --help
+      - name: Check package version matches script
+        run: |
+          script_version=$(./result-validate-local-repos/bin/validate-local-repos --version)
+          package_version=$(readlink result-validate-local-repos | sed 's/.*-validate-local-repos-//')
+          if [[ "$script_version" != "$package_version" ]]; then
+            echo "::error::Package version '$package_version' does not match script VERSION '$script_version'"
+            exit 1
+          fi
+
+  version:
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    runs-on: ubuntu-24.04
+    outputs:
+      version: ${{ steps.check.outputs.version }}
+      new: ${{ steps.check.outputs.new }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - id: check
+        run: |
+          version=$(sed -n 's/^VERSION="\(.*\)"$/\1/p' update.sh)
+          if [[ ! "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::Could not read a single x.y.z VERSION from update.sh (got '$version')"
+            exit 1
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          if git ls-remote --exit-code --tags origin "refs/tags/v$version" >/dev/null; then
+            echo "v$version already released"
+            echo "new=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "v$version is new"
+            echo "new=true" >> "$GITHUB_OUTPUT"
+          fi
 
   publish:
-    if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch'
-    needs: build
-    concurrency: publish-${{ github.ref }}
+    if: needs.version.outputs.new == 'true'
+    needs: [build, version]
     strategy:
       fail-fast: false
       # First system registers the lineage before the others publish.
@@ -42,35 +76,39 @@ jobs:
     # CLI-287: a refused publish waits 30 minutes before failing.
     timeout-minutes: 40
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
 
-      # flox publish needs a branch whose upstream contains the rev; tag checkouts are detached.
+      # flox publish needs a branch whose upstream contains the rev.
       - name: Attach HEAD to main
         run: |
           git checkout -B main "$GITHUB_SHA"
           git branch --set-upstream-to=origin/main main
           git merge-base --is-ancestor HEAD origin/main
 
-      - name: Check tag matches manifest version
-        if: startsWith(github.ref, 'refs/tags/v')
-        run: |
-          manifest_version=$(sed -n 's/^version = "\(.*\)"$/\1/p' .flox/env/manifest.toml)
-          if [[ "${GITHUB_REF_NAME#v}" != "$manifest_version" ]]; then
-            echo "::error::Tag $GITHUB_REF_NAME does not match manifest version $manifest_version"
-            exit 1
-          fi
-
       - name: Show publish source
         run: |
+          echo "version: ${{ needs.version.outputs.version }}"
           echo "rev: $(git rev-parse HEAD)"
           echo "origin: $(git remote get-url origin)"
 
-      - uses: flox/install-flox-action@v2
+      - uses: flox/install-flox-action@5bb9eaaffbeaa699a8251a1ae21ecf4c8e0e37d4 # v2.7.0
 
       - name: Publish
         env:
           FLOX_FLOXHUB_TOKEN: ${{ secrets.FLOX_FLOXHUB_TOKEN }}
           ALLOW_LINEAGE: ${{ inputs.allow_lineage_change && '1' || '' }}
         run: flox publish validate-local-repos ${ALLOW_LINEAGE:+--allow-lineage-change}
+
+  release:
+    needs: [version, publish]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - name: Create release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: v${{ needs.version.outputs.version }}
+        run: gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --title "$TAG" --generate-notes
